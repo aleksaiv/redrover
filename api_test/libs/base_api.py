@@ -11,10 +11,13 @@ class BaseAPI:
     def __init__(self, url: str | None = None):
         self.url = url.strip("/") if url else self.URL
         self.session = requests.Session()
-        self.token = None
 
-    def auth(self, username: str, password: str):
-        pass
+    def set_token(self, token):
+        if token:
+            self.session.cookies["token"] = token
+        else:
+            if "token" in self.session.cookies:
+                del self.session.cookies["token"]
 
     def get(self, endpoint: str, query: dict | None = None) -> requests.Response:
         """API GET Call.
@@ -28,10 +31,11 @@ class BaseAPI:
         else:
             logger.debug(f"GET {self.url}/{endpoint}")
         response = self.session.get(self.url + "/" + endpoint, params=query)
-        logger.debug(f"GET response: {response.status_code=}, JSON:\n{pprint.pformat(response.json(), indent=2,compact=True)}")
+        logger.debug(f"GET response: {response.status_code=}, JSON:\n{pprint.pformat(response.json(), indent=2,compact=True) if response.status_code < 300 else response.content}")
         return response
 
     def post(self, endpoint: str, data: dict) -> requests.Response:
+        logger.debug(f"POST {self.url=}, {endpoint=}, {data=}")
         return self.session.post(self.url + "/" + endpoint, json=data)
 
     def put(self, endpoint: str, data: dict) -> requests.Response:
