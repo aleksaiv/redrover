@@ -1,10 +1,12 @@
-import faker
-from datetime import date, timedelta
 import requests
-from .baseapi import BaseAPI
-
+from api_test.libs.base_api import BaseAPI
+from .payloads import Payloads
 
 class BookingAPI(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.payloads = Payloads()
+
     def get_booking_ids(self, search: dict | None = None) -> requests.Response:
         """
         Return the ids of all the bookings that exist within the API.
@@ -40,17 +42,3 @@ class BookingAPI(BaseAPI):
 
     def delete_booking(self, id) -> requests.Response:
         return self.delete(f"booking/{id}")
-
-    def prepare_fake_booking(self) -> dict:
-        f = faker.Faker()
-        d1 = f.date_between_dates(date_start=date.today(), date_end=date.today() + timedelta(days=365))
-        d2 = f.date_between_dates(date_start=d1, date_end=date.today() + timedelta(days=365))
-        first_name = f.first_name()
-        last_name = f.last_name()
-        data = {"firstname": first_name,
-                "lastname": last_name,
-                "totalprice": f.pyfloat(3, 2, True, min_value=0.01, max_value=999.99),
-                "depositpaid": f.boolean(70),
-                "bookingdates": {"checkin": str(d1), "checkout": str(d2)},
-                "additionalneeds": "cofee"}
-        return data
