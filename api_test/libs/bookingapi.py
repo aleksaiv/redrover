@@ -3,7 +3,7 @@ from .baseapi import BaseAPI
 
 
 class BookingAPI(BaseAPI):
-    def get_booking_ids(self, search: dict|None = None) -> requests.Response:
+    def get_booking_ids(self, search: dict | None = None) -> requests.Response:
         """
         Return the ids of all the bookings that exist within the API.
         Can take optional query strings to search and return a subset of booking ids.
@@ -14,6 +14,7 @@ class BookingAPI(BaseAPI):
         if search and isinstance(search, dict):
             return self.get("booking", query=search)
         return self.get("booking")
+
     def create_booking(self, data: dict) -> requests.Response:
         """
         Create a new booking.
@@ -22,5 +23,15 @@ class BookingAPI(BaseAPI):
         :return: API call result as a requests.Response object
         """
         return self.post("booking", data=data)
+
+    def get_booking(self, id: int) -> requests.Response:
+        """
+        Get a booking information
+
+        :param id: Booking id
+        :return: API call result as a requests.Response object
+        """
+        return self.get(f"booking/{id}")
+
     def delete_booking(self, id) -> requests.Response:
         return self.delete(f"booking/{id}")
