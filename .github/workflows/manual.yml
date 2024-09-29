@@ -6,7 +6,9 @@ on:
         description: 'Project for which to run tests'
         default: 'api_test'
         required: true
-        type: string
+        type: choice
+        options:
+        - api_test
 
 jobs:
   pytest:
