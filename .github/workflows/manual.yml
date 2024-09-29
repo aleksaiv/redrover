@@ -1,0 +1,26 @@
+name: Manual run tests
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Project for which to run tests'
+        default: 'api_test'
+        required: true
+        type: choice
+        options:
+        - api_test
+
+jobs:
+  pytest:
+    runs-on: redrover
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest ${{ github.event.inputs.name }}/tests
