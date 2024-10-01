@@ -41,7 +41,7 @@ class BaseAPI:
             if isinstance(expected_status_code, int):
                 expected_status_code = [expected_status_code]
             assert response.status_code in expected_status_code, f"Unexpected status code {response.status_code}. Expected status code(s): " + ", ".join(
-                expected_status_code)
+                map(str, expected_status_code))
         return response
 
     def post(self, endpoint: str, data: dict,
@@ -60,7 +60,7 @@ class BaseAPI:
             if isinstance(expected_status_code, int):
                 expected_status_code = [expected_status_code]
             assert response.status_code in expected_status_code, f"Unexpected status code {response.status_code}. Expected status code(s): " + ", ".join(
-                expected_status_code)
+                map(str, expected_status_code))
         return response
 
     def put(self, endpoint: str, data: dict,
@@ -77,7 +77,7 @@ class BaseAPI:
             if isinstance(expected_status_code, int):
                 expected_status_code = [expected_status_code]
             assert response.status_code in expected_status_code, f"Unexpected status code {response.status_code}. Expected status code(s): " + ", ".join(
-                expected_status_code)
+                map(str, expected_status_code))
         return response
 
     def delete(self, endpoint: str,
@@ -93,5 +93,5 @@ class BaseAPI:
             if isinstance(expected_status_code, int):
                 expected_status_code = [expected_status_code]
             assert response.status_code in expected_status_code, f"Unexpected status code {response.status_code}. Expected status code(s): " + ", ".join(
-                expected_status_code)
+                map(str, expected_status_code))
         return response
