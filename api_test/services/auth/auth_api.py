@@ -17,7 +17,8 @@ class AuthAPI(BaseAPI):
         :return: Return token
         """
         logger.debug(f"Create token: {username=}, {password=}")
-        response = self.post("auth", data={"username": username, "password": password}, expected_status_code=200)
+        response = self.post("auth", data={"username": username, "password": password})
+        assert response.status_code == 200, "Access denied"
         data = response.json()
         logger.debug(f"Auth result: {data}")
         assert "token" in data, "Access denied"
