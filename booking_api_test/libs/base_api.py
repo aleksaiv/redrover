@@ -36,7 +36,7 @@ class BaseAPI:
         response = self.session.get(self.url + "/" + endpoint, params=query)
         ppjson = pprint.pformat(response.json(), indent=2,
                                 compact=True) if response.status_code < 300 else response.content
-        logger.debug(f"GET result: {response.status_code=}, {expected_status_code=}, JSON:\n{ppjson}")
+        logger.debug(f"GET result: {response.status_code=}, {expected_status_code=}, Content: {ppjson}")
         if expected_status_code:
             if isinstance(expected_status_code, int):
                 expected_status_code = [expected_status_code]

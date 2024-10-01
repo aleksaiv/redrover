@@ -1,6 +1,6 @@
 import datetime
 from typing_extensions import TypedDict
-from pydantic import BaseModel, Extra, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 
 class BookingDates(TypedDict):
     checkin: datetime.date
@@ -13,8 +13,7 @@ class BookingModel(BaseModel):
     depositpaid: bool
     bookingdates: BookingDates
     additionalneeds: str
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     @field_validator("firstname", "lastname")
     def fields_are_not_empty(cls, value):

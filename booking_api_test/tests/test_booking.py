@@ -19,7 +19,7 @@ class TestBooking:
         booking_id = booking.bookingid
 
         new_booking = booking_api.get_booking(booking_id)
-        logging.info(f"Checking the created booking: {new_booking}")
+        logging.info(f"Checking created booking: {new_booking=}")
         assert new_booking.firstname == booking_payload.firstname
         assert new_booking.lastname == booking_payload.lastname
 
@@ -35,7 +35,7 @@ class TestBooking:
         logger.info(f"Booking info: {booking}")
         booking_id = booking.bookingid
         random_data = booking_api.payloads.booking()
-        new_data = booking_payload.copy()
+        new_data = booking_payload.model_copy()
         new_data.firstname = random_data.firstname
         new_data.lastname = random_data.lastname
         logger.info(f"Change first name and last name to: {new_data.firstname}, {new_data.lastname}")
