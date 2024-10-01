@@ -19,4 +19,4 @@ jobs:
         env:
           BOOKING_API_USERNAME: ${{ secrets.BOOKING_API_USERNAME }}
           BOOKING_API_PASSWORD: ${{ secrets.BOOKING_API_PASSWORD }}
-        run: pytest api_test/tests
+        run: pytest booking_api_test/tests

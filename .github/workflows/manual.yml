@@ -4,11 +4,11 @@ on:
     inputs:
       name:
         description: 'Project for which to run tests'
-        default: 'api_test'
+        default: 'booking_api_test'
         required: true
         type: choice
         options:
-        - api_test
+        - booking_api_test
 
 jobs:
   pytest:
