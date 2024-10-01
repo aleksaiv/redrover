@@ -40,5 +40,5 @@ class BookingAPI(BaseAPI):
     def update_booking(self, id: int, data: dict) -> requests.Response:
         return self.put(f"booking/{id}", data)
 
-    def delete_booking(self, id) -> requests.Response:
+    def delete_booking(self, id: int) -> requests.Response:
         return self.delete(f"booking/{id}")

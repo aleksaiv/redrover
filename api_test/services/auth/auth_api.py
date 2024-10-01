@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 class AuthAPI(BaseAPI):
     USERNAME: str
     PASSWORD: str
+
     def create_token(self, username: str, password: str) -> str:
         """
         Authenticate and return token.
