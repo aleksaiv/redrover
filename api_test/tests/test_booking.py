@@ -14,7 +14,6 @@ class TestBooking:
         logger.debug(f"IDs: {response.json()}")
 
     def test_create_booking(self, api, auth):
-        logger.info(os.environ)
         logger.info("Test create booking")
         data = api.payloads.booking()
         response = api.create_booking(data)
