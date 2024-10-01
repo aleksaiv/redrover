@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from api_test.services.booking.booking_api import BookingAPI
 from api_test.services.auth.auth_api import AuthAPI
 
-load_dotenv("../.env")
+load_dotenv(".env")
 
 URL = os.environ.get("BOOKING_API_URL", "https://restful-booker.herokuapp.com")
 USERNAME = os.getenv("BOOKING_API_USERNAME")
