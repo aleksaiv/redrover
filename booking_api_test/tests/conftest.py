@@ -17,14 +17,10 @@ PASSWORD = os.getenv("BOOKING_API_PASSWORD")
 def booking_api() -> "BookingAPI":
     return BookingAPI(BOOKING_URL)
 
-
 @pytest.fixture(scope="session")
-def auth() -> "AuthAPI":
-    auth_object = AuthAPI(BOOKING_URL)
-    auth_object.USERNAME = USERNAME
-    auth_object.PASSWORD = PASSWORD
-    return auth_object
-
+def auth(booking_api):
+    logger.info("Authenticate")
+    return booking_api.set_token(AuthAPI(BOOKING_URL).create_token(username=USERNAME, password=PASSWORD))
 
 @pytest.fixture(scope="session")
 def token() -> str:
