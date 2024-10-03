@@ -21,6 +21,12 @@ class BookingModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+    @field_validator("depositpaid", mode="before")
+    def fields_boolean(cls, value, ctx):
+        if isinstance(value, bool):
+            return value
+        else:
+            raise ValueError(f"Field `{ctx.field_name}` is not boolean")
 
 class BookingResponse(BaseModel):
     bookingid: int
