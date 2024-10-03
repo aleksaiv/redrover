@@ -1,26 +1,21 @@
 import pytest
-import os
 import logging
-from dotenv import load_dotenv
 from booking_api_test.services.booking.booking_api import BookingAPI
 from booking_api_test.services.auth.auth_api import AuthAPI
+from booking_api_test.config import BOOKING_URL, USERNAME, PASSWORD
 
 logger = logging.getLogger(__name__)
-load_dotenv(".env")
-
-BOOKING_URL = os.environ.get("BOOKING_API_URL", "https://restful-booker.herokuapp.com")
-USERNAME = os.getenv("BOOKING_API_USERNAME")
-PASSWORD = os.getenv("BOOKING_API_PASSWORD")
-
 
 @pytest.fixture(scope="session")
 def booking_api() -> "BookingAPI":
     return BookingAPI(BOOKING_URL)
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def auth(booking_api):
     logger.info("Authenticate")
-    return booking_api.set_token(AuthAPI(BOOKING_URL).create_token(username=USERNAME, password=PASSWORD))
+    booking_api.set_token(AuthAPI(BOOKING_URL).create_token(username=USERNAME, password=PASSWORD))
+    yield
+    booking_api.set_token(None)
 
 @pytest.fixture(scope="session")
 def token() -> str:

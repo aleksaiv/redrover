@@ -58,3 +58,13 @@ class TestBooking:
         booking_api.delete_booking(booking["bookingid"])
         logger.info("Check if it has been deleted")
         assert not booking_api.is_booking_exists(booking["bookingid"])
+
+    def test_booking_not_found(self, booking_api):
+        booking_api.get_booking(-1, expected_status_code=404)
+
+    def test_delete_without_auth(self, booking_api, token):
+        id = booking_api.create_booking(booking_api.payloads.booking()).json()['bookingid']
+        booking_api.delete_booking(id, expected_status_code=403)
+        booking_api.set_token(token)
+        booking_api.delete_booking(id)
+
