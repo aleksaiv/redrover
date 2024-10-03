@@ -13,7 +13,7 @@ class BaseAPI:
         self.url = url.strip("/") if url else self.URL
         self.session = requests.Session()
 
-    def set_token(self, token):
+    def set_token(self, token: str|None = None):
         if token:
             self.session.cookies["token"] = token
         else:
