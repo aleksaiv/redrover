@@ -24,7 +24,7 @@ class BookingAPI(BaseAPI):
         return self.get(f"booking/{id}").status_code == 200
 
     def update_booking(self, id: int, data: dict, expected_status_code: list | int | None = 200) -> requests.Response:
-        return self.put(f"booking/{id}", data=data, expected_status_code=expected_status_code)
+        return self.patch(f"booking/{id}", data=data, expected_status_code=expected_status_code)
 
     def delete_booking(self, id: int, expected_status_code: list | int | None = 201) -> requests.Response:
         return self.delete(f"booking/{id}", expected_status_code=expected_status_code)
