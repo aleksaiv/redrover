@@ -20,6 +20,7 @@ class TestBooking:
         new_booking = booking_api.get_booking(booking["bookingid"]).json()
         logging.info(f"Checking created booking: {new_booking=}")
         BookingModel.model_validate(new_booking)
+        assert new_booking == booking_payload
         assert new_booking["firstname"] == booking_payload["firstname"]
         assert new_booking["lastname"] == booking_payload["lastname"]
 
@@ -31,7 +32,7 @@ class TestBooking:
         booking_payload = booking_api.payloads.booking()
         booking = booking_api.create_booking(booking_payload).json()
         logger.info(f"Booking info: {booking}")
-        new_data = booking_payload.copy()
+        new_data = {}
         random_data = booking_api.payloads.booking()
         new_data["firstname"] = random_data["firstname"]
         new_data["lastname"] = random_data["lastname"]
@@ -40,8 +41,11 @@ class TestBooking:
         logger.info("Retrieve updated booking")
         updated_booking = booking_api.get_booking(booking["bookingid"]).json()
         logger.info(f"Updated booking info: {updated_booking=}")
-        assert updated_booking["firstname"] == new_data["firstname"]
-        assert updated_booking["lastname"] == new_data["lastname"]
+        for k in booking_payload.keys():
+            if k in ['firstname', 'lastname']:
+                assert updated_booking[k] == new_data[k]
+            else:
+                assert updated_booking[k] == booking_payload[k]
         logger.info("Cleanup: Delete booking")
         booking_api.delete_booking(booking["bookingid"])
 

@@ -1,3 +1,4 @@
+from random import randint
 import faker
 from datetime import date, timedelta
 
@@ -12,7 +13,7 @@ class Payloads:
         last_name = self.faker.last_name()
         data = {"firstname": first_name,
                 "lastname": last_name,
-                "totalprice": self.faker.pyfloat(3, 2, True, min_value=0.01, max_value=999.99),
+                "totalprice": randint(0,999),
                 "depositpaid": self.faker.boolean(70),
                 "bookingdates": {"checkin": str(d1), "checkout": str(d2)},
                 "additionalneeds": "cofee"}
