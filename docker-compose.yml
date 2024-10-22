@@ -11,7 +11,7 @@ services:
         networks:
             - mynet
         environment:
-            SE_ENABLE_TRACING: "false"
+            SE_ENABLE_TRACING: false
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:4444"]
             interval: 10s
