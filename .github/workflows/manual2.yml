@@ -1,0 +1,24 @@
+name: Manual run tests #2
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'Project for which to run tests'
+        default: 'api'
+        required: true
+        type: choice
+        options:
+        - api
+        - web
+
+jobs:
+  pytest:
+    runs-on: redrover
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run tests
+	env:
+	   PROJECT: ${{ github.event.inputs.project }}
+        run: |
+          docker-compose up --abort-on-container-exit --exit-code-from app_test
