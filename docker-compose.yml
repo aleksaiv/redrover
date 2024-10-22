@@ -1,0 +1,83 @@
+version: "3.7"
+services:
+
+    chrome:
+        image: selenium/standalone-chrome
+        shm_size: '1gb'
+        ports:
+            - 4444:4444
+            - 5900:5900
+            - 7900:7900
+        networks:
+            - mynet
+        environment:
+            SE_ENABLE_TRACING: false
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:4444"]
+            interval: 10s
+            timeout: 10s
+            retries: 5
+#    firefox:
+#        image: selenium/standalone-firefox
+#        shm_size: '1gb'
+#        ports:
+#            - 4444:4444
+#            - 5900:5900
+#            - 7900:7900
+#    edge:
+#        image: selenium/standalone-edge
+#        shm_size: '1gb'
+#        ports:
+#            - 4444:4444
+#            - 5900:5900
+#            - 7900:7900
+    
+    app_front:
+        image: app_front:v1
+        build:
+            context: .
+            dockerfile: app_front.Dockerfile
+        volumes:
+            - ./:/usr/workspace
+        command: sh -c 'npm run dev -- --host 0.0.0.0'
+        working_dir: /usr/workspace/app/front
+        ports:
+            - "5173:5173"
+        depends_on:
+            - app_api
+        networks:
+            - mynet
+            
+    app_api:
+        image: app_api:v1
+        build:
+            context: .
+            dockerfile: app_api.Dockerfile
+        volumes:
+            - ./:/usr/workspace
+        command: sh -c "python main.py"
+        working_dir: /usr/workspace/app
+        ports:
+            - "8000:8000"
+        networks:
+            - mynet
+    app_test:
+        image: app_test:v1
+        build:
+            context: .
+            dockerfile: app_test.Dockerfile
+        volumes:
+            - ./:/usr/workspace
+        depends_on:
+            app_api:
+              condition: service_started
+            app_front:
+              condition: service_started
+            chrome:
+              condition: service_healthy
+        command: sh -c "python -m pytest tests/$$PROJECT"
+        networks:
+            - mynet
+networks:
+    mynet:
+
