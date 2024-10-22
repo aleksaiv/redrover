@@ -18,7 +18,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run tests
-	env:
-	   PROJECT: ${{ github.event.inputs.project }}
-        run: |
-          docker-compose up --abort-on-container-exit --exit-code-from app_test
+        env:
+          PROJECT: ${{ github.event.inputs.project }}
+        run: docker-compose up --abort-on-container-exit --exit-code-from app_test
