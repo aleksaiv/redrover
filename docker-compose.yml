@@ -76,6 +76,7 @@ services:
         environment:
             API_URL: "http://app_api:8000"
             WEB_URL: "http://app_front:5173"
+            HUB_URL: "http://chrome:4444"
         depends_on:
             app_api:
               condition: service_started
