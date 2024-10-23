@@ -3,7 +3,7 @@ from typing_extensions import TypedDict
 from pydantic import BaseModel, RootModel, field_validator
 
 
-class TestCaseModel(BaseModel):
+class TCModel(BaseModel):
     id: int
     name: str
     description: str
@@ -26,5 +26,6 @@ class TestCaseModel(BaseModel):
             raise ValueError(f"Field `{ctx.field_name}` contains an invalid value: {value}")
 
 
-TestCasesModel = RootModel[list[TestCaseModel]]
+TCsModel = RootModel[list[TCModel]]
+
 

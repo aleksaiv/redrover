@@ -84,7 +84,7 @@ services:
               condition: service_healthy
             chrome:
               condition: service_healthy
-        command: sh -c "python -m pytest tests/${PROJECT}"
+        command: sh -c "python -m pytest tests/$PROJECT"
         networks:
             - mynet
 networks:
