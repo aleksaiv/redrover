@@ -73,6 +73,9 @@ services:
             dockerfile: app_test.Dockerfile
         volumes:
             - ./:/usr/workspace
+        environment:
+            API_URL: "http://app_api:8000"
+            WEB_URL: "http://app_front:5173"
         depends_on:
             app_api:
               condition: service_started
