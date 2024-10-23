@@ -27,4 +27,5 @@ class TestCaseModel(BaseModel):
 
 
 TestCasesModel = RootModel[list[TestCaseModel]]
+TestCasesModel.__test__ = False
 
