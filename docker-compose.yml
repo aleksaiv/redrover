@@ -47,6 +47,11 @@ services:
             - app_api
         networks:
             - mynet
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:5173"]
+            interval: 10s
+            timeout: 10s
+            retries: 5
             
     app_api:
         image: app_api:v1
@@ -72,7 +77,7 @@ services:
             app_api:
               condition: service_started
             app_front:
-              condition: service_started
+              condition: service_healthy
             chrome:
               condition: service_healthy
         command: sh -c "python -m pytest tests/$$PROJECT"
