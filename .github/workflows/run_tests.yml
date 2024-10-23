@@ -1,22 +1,23 @@
-name: Automated tests
+name: Run tests manually (docker)
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'Project for which to run tests'
+        default: 'api'
+        required: true
+        type: choice
+        options:
+        - api
+        - web
 
 jobs:
-  test:
-    runs-on: my-trinkets
-
+  pytest:
+    runs-on: docker
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: install dependencies
-        run: pip install -r requirements.txt
       - name: Run tests
         env:
-          BOOKING_API_USERNAME: ${{ secrets.BOOKING_API_USERNAME }}
-          BOOKING_API_PASSWORD: ${{ secrets.BOOKING_API_PASSWORD }}
-        run: pytest booking_api_test/tests
+          PROJECT: ${{ github.event.inputs.project }}
+        run: docker-compose up --abort-on-container-exit --exit-code-from app_test
