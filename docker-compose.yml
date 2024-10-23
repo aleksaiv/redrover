@@ -39,7 +39,7 @@ services:
             dockerfile: app_front.Dockerfile
         volumes:
             - ./:/usr/workspace
-        command: sh -c 'npm I && npm run dev -- --host 0.0.0.0'
+        command: sh -c 'npm install && npm run dev -- --host 0.0.0.0'
         working_dir: /usr/workspace/app/front
         ports:
             - "5173:5173"
